@@ -19,12 +19,19 @@ EXPOSE 8000
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    apk add --update --no-cache postgresql-client && \
+    #install client
+    apk add --update --no-cache --virtual .tmp-build-deps \
+    #set a virtual of our dependency
+        build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     #fi => end if
     rm -rf /tmp && \
+    apk del .tmp-build-deps && \
+    #above must be the same with 
     adduser \ 
     #adduser to the image (this is not a rootuser)
         --disabled-password \
