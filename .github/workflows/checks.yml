@@ -27,5 +27,5 @@ jobs:
         run: docker-compose run --rm app sh -c "python manage.py test"
 #Unit Test
       - name: Lint
-        run: docker-compose run --rm app sh -c "run flake8"
+        run: docker-compose run --rm app sh -c "flake8"
 #Flake8
