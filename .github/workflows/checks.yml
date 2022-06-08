@@ -18,14 +18,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 #Define the first step of our job
 #user => use the premade actions for some job
-      - name: Check-out
+      - name: Checkout
         uses: actions/checkout@v2
 #This step checkout => provided by github
 #default code is not checkout
 #we need to use the code for testing, thus checkout is needed
-      - name: Unit Test
-        run:  docker-compose run --rm app sh -c "python manage.py test"
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
 #Unit Test
       - name: Lint
-        run:  docker-compose run --rm app sh -c "run linting flake8"
+        run: docker-compose run --rm app sh -c "run flake8"
 #Flake8
