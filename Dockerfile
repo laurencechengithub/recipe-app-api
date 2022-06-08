@@ -24,7 +24,7 @@ RUN python -m venv /py && \
     apk add --update --no-cache --virtual .tmp-build-deps \
     #set a virtual and make alias of our below dependencies 給下面一個統稱：tmp-build-deps
         build-base postgresql-dev musl-dev && \
-    
+    #apk add --no-cache py3-numpy \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
