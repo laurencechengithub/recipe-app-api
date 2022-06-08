@@ -20,10 +20,11 @@ ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client && \
-    #install client
+    #apk=package manager from alpine, install client
     apk add --update --no-cache --virtual .tmp-build-deps \
-    #set a virtual of our dependency
+    #set a virtual and make alias of our below dependencies 給下面一個統稱：tmp-build-deps
         build-base postgresql-dev musl-dev && \
+    
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
