@@ -10,12 +10,21 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
         """Create, save and return a new user"""
+        #make sure email add. is inputed
+        if not email:
+            raise ValueError("User must have an email")
+        #than proceed to create user
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         #above also encrypt the password
         user.save(using=self._db)
 
         return user
+
+
+
+
+
 
 class User(AbstractBaseUser, PermissionsMixin):
 
