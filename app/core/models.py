@@ -48,3 +48,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     #reset the orignal dejango auth. from name to email
     USERNAME_FIELD = "email"
 
+
