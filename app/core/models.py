@@ -21,7 +21,15 @@ class UserManager(BaseUserManager):
 
         return user
 
+    def create_superuser(self, email, password):
 
+        user = self.create_user(email, password)
+        user.set_password(password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+
+        return user
 
 
 
@@ -39,3 +47,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     #reset the orignal dejango auth. from name to email
     USERNAME_FIELD = "email"
+
