@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.test import Client
 
 class AdminSiteTests(TestCase):
-
+    """Tests for Django admin."""
     #the test name for admin are not the same as from model starting as "test"
     def setUp(self):
         """Create user and client"""
@@ -20,7 +20,7 @@ class AdminSiteTests(TestCase):
             name="Test user",
         )
 
-    def test_users_list(self):
+    def test_users_lists(self):
         """test that users are on the page"""
         url = reverse('admin:core_user_changelist')
         res = self.client.get(url)
