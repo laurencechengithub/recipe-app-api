@@ -27,3 +27,12 @@ class AdminSiteTests(TestCase):
 
         self.assertContains(res, self.user.name)
         self.assertContains(res, self.user.email)
+
+    def test_edit_user_page(self):
+        """"Test whether the edit user page works"""
+        url = reverse('admin:core_user_change', args=[self.user.id])
+        #http://localhost:8000/admin/core/user/1/change/ 上敘網址
+        res = self.client.get(url)
+
+        self.assertEqual(res.status_code,200)
+        #makes sure the cliet gets/load the page succesful with http:200

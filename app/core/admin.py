@@ -3,6 +3,8 @@ from django.contrib import admin # noqa
 # Register your models here.
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext_lazy as translationStub
+# language translation
 
 from core import models
 
@@ -10,7 +12,30 @@ class UserAdmin(BaseUserAdmin):
     """Define the admin page"""
     ordering = ["id"]
     #ordering comes with the django useradmin
-    list_display = ["email","name"]
+    list_display = ["email","name","follower","memberType"]
+    fieldsets = (
+        ('ThisIsTheTitle', {'fields': ('email','password')}),
+        #(title, )
+        (
+            translationStub('Permission'),
+            {
+                'fields' : (
+                    'is_active',
+                    'is_staff',
+                    'is_superuser',
+                    'follower',
+                    'memberType',
+                )
+            }
+        ),
+        (
+            translationStub('Important dates'),
+            {
+                'fields': ('last_login',)
+            }
+        ),
+    )
+    readonly_fields = ['last_login']
 
 admin.site.register(models.User, UserAdmin)
 #if without UserAdmin will basic CRUD operation in models.user
