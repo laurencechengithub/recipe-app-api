@@ -49,7 +49,7 @@ class UserAdmin(BaseUserAdmin):
                 'is_superuser',
                 'follower',
                 'memberType',
-            )
+            ),
         }),
     )
 

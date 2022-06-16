@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 # model serializer do is allow us to automatically valide and things to a specific model
-class UserSerializer(serializers.ModelSerializers):
+class UserSerializer(serializers.ModelSerializer):
 
     #class meta tells django the model and the fields or any additial argements
     class Meta:
@@ -17,4 +17,4 @@ class UserSerializer(serializers.ModelSerializers):
     #create is called only after the validation pass
     def create(self, validated_data):
         """create and return a user with encrypte"""
-        return get_user_model.objects.create_user(**validated_data)
+        return get_user_model().objects.create_user(**validated_data)

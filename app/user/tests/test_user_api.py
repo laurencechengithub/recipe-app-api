@@ -1,4 +1,4 @@
-from email.message import _PayloadType
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -21,7 +21,7 @@ def create_user(**params):
 class PublicUserTests(TestCase):
 
     def setUp(self):
-         print("setup")
+        print("setup")
         self.client = APIClient()
         #create client for testing
 
