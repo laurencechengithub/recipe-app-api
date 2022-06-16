@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from xml.etree.ElementInclude import include
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
@@ -24,8 +25,17 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     #generate the yaml file of this project's api
-    path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
+    path(
+        'api/schema/',
+        SpectacularAPIView.as_view(),
+        name='api-schema'
+        ),
     #generate the swagger
-    path('api/docs/',SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs',)
+    path(
+        'api/docs/',
+        SpectacularSwaggerView.as_view(url_name='api-schema'),
+        name='api-docs'
+        ),
+    path('api/user/', include('user.urls')),
 
 ]
