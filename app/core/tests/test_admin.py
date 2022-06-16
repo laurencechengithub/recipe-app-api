@@ -1,3 +1,4 @@
+from http import client
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -36,3 +37,10 @@ class AdminSiteTests(TestCase):
 
         self.assertEqual(res.status_code,200)
         #makes sure the cliet gets/load the page succesful with http:200
+
+    def test_create_user_page(self):
+        """"Test the create user page"""
+        url = reverse('admin:core_user_add')
+        res = self.client.get(url)
+
+        self.assertEqual(res.status_code, 200)

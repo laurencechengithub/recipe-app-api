@@ -36,6 +36,22 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
     readonly_fields = ['last_login']
+    add_fieldsets = (
+        ("Add_One_User",{
+            'classes':('wide',),
+            'fields': (
+                'email',
+                'password1',
+                'password2',
+                'name',
+                'is_active',
+                'is_staff',
+                'is_superuser',
+                'follower',
+                'memberType',
+            )
+        }),
+    )
 
 admin.site.register(models.User, UserAdmin)
 #if without UserAdmin will basic CRUD operation in models.user
