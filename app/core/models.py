@@ -3,7 +3,12 @@
 from django.db import models
 from django.contrib.auth.models import(AbstractBaseUser,BaseUserManager,PermissionsMixin)
 
+#Recipe
+from django.conf import settings
 
+
+
+#For user we are extending the exist functions of django user
 #Create user manager
 class UserManager(BaseUserManager):
     """Manager for User"""
@@ -49,3 +54,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
 
 
+## Recipe ======Below=======
+#
+
+class Recipe(models.Model):
+    "Recipe object"
+    #below use the ForeignKey allow us to set relationship between this model and another model
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        #once the user is deleted from the profile, it's going to delete all recipes
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    time_minutes = models.IntegerField()
+    price = models.DecimalField(max_digits=5,decimal_places=2)
+    link = models.CharField(max_length=255, blank=True)
+    #return the string representation of the object
+    def __str__(self):
+        return self.title

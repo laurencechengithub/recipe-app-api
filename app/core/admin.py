@@ -55,3 +55,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(models.User, UserAdmin)
 #if without UserAdmin will basic CRUD operation in models.user
+
+#Recipe======below====
+admin.site.register(models.Recipe)
