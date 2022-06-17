@@ -23,15 +23,34 @@ class UserSerializer(serializers.ModelSerializer):
         """create and return a user with encrypte"""
         return get_user_model().objects.create_user(**validated_data)
 
+    def update(self, instance, validated_data):
+        #the instance is the model we are going to update
+        #the validated_data is the data which had pass the serialize validation
+        "update and return user"
+        password = validated_data.pop('password', None)
+        #pop
+        #we get the password from the validated_data dictionary but remove it after retrieve it
+        #user might just want to update email or name so we don't need them to enter the password => nono
+        user = super().update(instance, validated_data)
+        #thus calls the super method in the ModelSerializer
+        #and update
+        if password:
+            user.set_password(password)
+            user.save()
+        return user
+
+
+
+
 class AuthTokenSerializer(serializers.Serializer):
 
-    email = serializer.EmailField()
-    password = serializer.CharField(
+    email = serializers.EmailField()
+    password = serializers.CharField(
         style={'input_type':'password'},
         trim_whitespace=False,
     )
 
-    def validete(self, attrs):
+    def validate(self, attrs):
         """validate and auth the user"""
         email = attrs.get('email')
         password = attrs.get('password')
@@ -45,9 +64,10 @@ class AuthTokenSerializer(serializers.Serializer):
         )
 
         if not user:
-            msg = _('Unable to auth with provided credentails')
+            msg = _('Unable to auth with provided credentials')
             raise serializers.ValidationError(msg, code='authorization')
             #raisee a valiation error
 
         attrs['user'] = user
         return attrs
+
