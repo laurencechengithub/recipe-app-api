@@ -21,7 +21,7 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
     #base on the generics
     # the RetrieveUpdateApIView is used for reterieving and updating objects in the database
     ""
-    serializers_class = UserSerializer
+    serializer_class = UserSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
