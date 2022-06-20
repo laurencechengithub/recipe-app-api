@@ -36,3 +36,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return serializers.RecipeSerializer
 
         return self.serializer_class
+
+    def perform_create(self, serializer): #we override the create method of django
+        "create a new recipe"
+        #when we create a new recipe through the create feature of the view,
+        #it's going to call this function
+        serializer.save(user=self.request.user)
