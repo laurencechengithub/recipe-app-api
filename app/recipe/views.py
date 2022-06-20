@@ -14,7 +14,7 @@ from recipe import serializers
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe api"""
     #the variable names below are not to be modified
-    serializer_class = serializers.RecipeSerializer
+    serializer_class = serializers.RecipeDetailSerializer
     # the objects that are avaible for this view set
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
@@ -25,3 +25,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Retrieve recipes for authenticated user"""
         #user that is assigned with the request
         return self.queryset.filter(user=self.request.user).order_by('-id')
+
+    def get_serializer_class(self):
+        "Return the serializer class for the request"
+        #the minor defference of RecipeSerializer vs RecipeDetailSerializer
+        #is when the action are requesting the list of recipes that are without detail
+        #so we use RecipeSerializer .
+        #where as if with detail than we use RecipeDetailSerializer
+        if self.action == 'list':
+            return serializers.RecipeSerializer
+
+        return self.serializer_class
