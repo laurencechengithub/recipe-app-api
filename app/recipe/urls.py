@@ -1,3 +1,7 @@
+"""
+URL mappings for the recipe app.
+"""
+
 from django.urls import (
     path,
     include,
@@ -20,5 +24,5 @@ app_name = 'recipe'
 
 # the urlpatterns are here to include the functions generated automatically by the router
 urlpatterns = [
-    path('',include(router.urls))
+    path('',include(router.urls)),
 ]

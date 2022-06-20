@@ -13,9 +13,10 @@ from recipe import serializers
 # ModelViewSet is use the direct interact with a model
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe api"""
-    serializers_class = serializers.RecipeSerializer
+    #the variable names below are not to be modified
+    serializer_class = serializers.RecipeSerializer
     # the objects that are avaible for this view set
-    query_set = Recipe.objects.all()
+    queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -23,4 +24,4 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrieve recipes for authenticated user"""
         #user that is assigned with the request
-        return self.query_set.filter(user=self.request.user).order_by('-id')
+        return self.queryset.filter(user=self.request.user).order_by('-id')
