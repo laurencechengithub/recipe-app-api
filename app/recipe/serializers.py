@@ -1,4 +1,4 @@
-from asyncore import read
+
 from rest_framework import serializers
 from core.models import Recipe, Tag
 
@@ -23,7 +23,16 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = ['id','title','time_minutes','price','link','tags']
         read_only_fields = ['id']
 
-    #default nested serializer are read only, thus we need to create custom
+
+
+
+# using RecipeSerializer as the base class since it's just an extension of the that
+# with some few extra fields only
+class RecipeDetailSerializer(RecipeSerializer):
+    class Meta(RecipeSerializer.Meta):
+        fields = RecipeSerializer.Meta.fields + ['description']
+
+        #default nested serializer are read only, thus we need to create custom
     #adding a new method in class to override the original create method
     def create(self, validated_data):
         "create a recipe"
@@ -38,17 +47,8 @@ class RecipeSerializer(serializers.ModelSerializer):
             tag_obj, created = Tag.objects().get_or_create(
                 user=auth_user,
                 **tag, # name=tag['name'],
-
             )
             recipe.tags.add(tag_obj)
+
         return recipe
-
-
-# using RecipeSerializer as the base class since it's just an extension of the that
-# with some few extra fields only
-class RecipeDetailSerializer(RecipeSerializer):
-    class Meta(RecipeSerializer.Meta):
-        fields = RecipeSerializer.Meta.fields + ['description']
-
-
 
