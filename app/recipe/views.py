@@ -50,7 +50,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 
 #tag => using viewset; viewset can provide simple CRUD
-class TagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+#GenericViewSet must be the last inheritance
+class TagViewSet(mixins.UpdateModelMixin ,
+                 mixins.ListModelMixin,
+                 viewsets.GenericViewSet):
     'Manage tags in the database'
     serializer_class=serializers.TagSerializer
     queryset = Tag.objects.all()
@@ -60,3 +63,4 @@ class TagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     def get_queryset(self):
         "Filter queryset to authenticated user"
         return self.queryset.filter(user=self.request.user).order_by('-name')
+
