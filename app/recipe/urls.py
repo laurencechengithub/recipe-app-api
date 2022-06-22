@@ -16,7 +16,10 @@ router = DefaultRouter()
 #register our viewset to the router with the name 'recipes'
 router.register('recipes', views.RecipeViewSet)
 #now this creates endpoint as "/recipes" from viewset to this end point
-#and since we are using modelViewSet it's going to create create,read,update,delete
+#and since we are using modelViewSet it's going to create CRUD create,read,update,delete
+
+#register our viewset to the router with the name 'tads'
+router.register('tags', views.TagViewSet)
 
 #define the name when we do reverse lookup  of url's
 app_name = 'recipe'

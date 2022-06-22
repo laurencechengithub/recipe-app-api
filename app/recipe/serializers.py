@@ -1,6 +1,6 @@
 from asyncore import read
 from rest_framework import serializers
-from core.models import Recipe
+from core.models import Recipe, Tag
 
 #the ModelSerializer is going to represent a specific model in the system => recipe model
 class RecipeSerializer(serializers.ModelSerializer):
@@ -17,3 +17,13 @@ class RecipeSerializer(serializers.ModelSerializer):
 class RecipeDetailSerializer(RecipeSerializer):
     class Meta(RecipeSerializer.Meta):
         fields = RecipeSerializer.Meta.fields + ['description']
+
+
+
+# tag
+class TagSerializer(serializers.ModelSerializer):
+    "Serializers for tags"
+    class Meta:
+        model = Tag
+        fields = ['id','name']
+        read_only_fields = ['id']
