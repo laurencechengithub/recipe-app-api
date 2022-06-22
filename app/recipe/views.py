@@ -51,7 +51,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 #tag => using viewset; viewset can provide simple CRUD
 #GenericViewSet must be the last inheritance
-class TagViewSet(mixins.UpdateModelMixin ,
+#mixins.UpdateModelMixin => we can update the tags
+#mixins.DestroyModelMixin => we can delete the tags
+class TagViewSet(mixins.DestroyModelMixin,
+                 mixins.UpdateModelMixin,
                  mixins.ListModelMixin,
                  viewsets.GenericViewSet):
     'Manage tags in the database'
