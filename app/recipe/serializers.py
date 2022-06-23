@@ -1,16 +1,23 @@
 
 from rest_framework import serializers
-from core.models import Recipe, Tag
+from core.models import Recipe, Tag, Ingredient
 
-# tagSerializer must be before recipe due to next serializer
+# IngredientsSerializer must be before recipe due to nest serializer pattern
+class IngredientSerializer(serializers.ModelSerializer):
+    "Serializers for ingredients"
+    class Meta:
+        model = Ingredient
+        fields = ['id','name']
+        read_only_fields = ['id']
+
+
+# tagSerializer must be before recipe due to nest serializer
 class TagSerializer(serializers.ModelSerializer):
     "Serializers for tags"
     class Meta:
         model = Tag
         fields = ['id','name']
         read_only_fields = ['id']
-
-
 
 #the ModelSerializer is going to represent a specific model in the system => recipe model
 class RecipeSerializer(serializers.ModelSerializer):
@@ -64,8 +71,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-
-
 
 # using RecipeSerializer as the base class since it's just an extension of the that
 # with some few extra fields only

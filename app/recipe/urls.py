@@ -20,6 +20,9 @@ router.register('recipes', views.RecipeViewSet)
 
 #register our viewset to the router with the name 'tads'
 router.register('tags', views.TagViewSet)
+#register our viewset to the router with the name 'ingredients'
+router.register('ingredients', views.IngredientViewSet)
+
 
 #define the name when we do reverse lookup  of url's
 app_name = 'recipe'
