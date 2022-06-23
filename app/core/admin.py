@@ -62,3 +62,5 @@ admin.site.register(models.Recipe)
 #Tag======below====
 admin.site.register(models.Tag)
 #This makes sure that Tag are manageable through django admin interface
+
+admin.site.register(models.Ingredient)
