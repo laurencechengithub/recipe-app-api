@@ -145,3 +145,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS' : 'drf_spectacular.openapi.AutoSchema'
 }
 #above configs the django to use drf spectacular frame work to generate schema
+
+SPECTACULAR_SETTINGS = {
+    'COMPONENT_SPLIT_REQUEST': True,
+}
