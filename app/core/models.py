@@ -6,6 +6,18 @@ from django.contrib.auth.models import(AbstractBaseUser,BaseUserManager,Permissi
 #Recipe
 from django.conf import settings
 
+#image
+import uuid
+import os
+
+#method to define the path where we want to store the image
+def recipe_image_file_path(instance, filename):
+    """Generate file path for new recipe image."""
+    ext = os.path.splitext(filename)[1]
+    filename = f'{uuid.uuid4()}{ext}'
+
+    return os.path.join('uploads', 'recipe', filename)
+
 
 
 #For user we are extending the exist functions of django user
@@ -74,6 +86,8 @@ class Recipe(models.Model):
     tags = models.ManyToManyField('Tag')
     #add ingredients into recipe model
     ingredients = models.ManyToManyField('Ingredient')
+    #image
+    image = models.ImageField(null=True,upload_to=recipe_image_file_path)
 
     #return the string representation of the object
     def __str__(self):
