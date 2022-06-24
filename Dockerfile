@@ -19,11 +19,11 @@ EXPOSE 8000
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache postgresql-client jpeg-dev && \
     #apk=package manager from alpine, install client
     apk add --update --no-cache --virtual .tmp-build-deps \
     #set a virtual and make alias of our below dependencies 給下面一個統稱：tmp-build-deps
-        build-base postgresql-dev musl-dev && \
+        build-base postgresql-dev musl-dev zlib zlib-dev && \
     #apk add --no-cache py3-numpy \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
@@ -32,8 +32,8 @@ RUN python -m venv /py && \
     #fi => end if
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
-    #above must be the same with 
-    adduser \ 
+    #above must be the same with
+    adduser \
     #adduser to the image (this is not a rootuser)
         --disabled-password \
         --no-create-home \
