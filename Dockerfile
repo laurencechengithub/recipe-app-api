@@ -37,9 +37,12 @@ RUN python -m venv /py && \
     #adduser to the image (this is not a rootuser)
         --disabled-password \
         --no-create-home \
-        django-container-user
+        django-container-user && \
         #the name of user that created in container
-
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    chown -R django-container-user:django-container-user /vol && \
+    chmod -R 755 /vol
 #run command when building image
 #keep run command light weight avoid too many layer in out system
 
