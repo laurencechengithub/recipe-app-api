@@ -32,6 +32,24 @@ from drf_spectacular.utils import (
     OpenApiTypes,
 )
 
+#changing the open api parameter
+@extend_schema_view(
+    list=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                'tags',
+                OpenApiTypes.STR,
+                description='Comma separated list of tag IDs to filter',
+            ),
+            OpenApiParameter(
+                'ingredients',
+                OpenApiTypes.STR,
+                description='Comma separated list of ingredient IDs to filter',
+            ),
+        ]
+    )
+)
+
 
 # ModelViewSet is use the direct interact with a model
 class RecipeViewSet(viewsets.ModelViewSet):
