@@ -51,7 +51,7 @@ RUN python -m venv /py && \
 
 
 
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/scripts:/py/bin:$PATH"
 
 USER django-container-user
 #below is the name of the scripts that's going to run our application
