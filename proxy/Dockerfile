@@ -1,5 +1,5 @@
 FROM nginxinc/nginx-unprivileged:1-alpine
-LABEL maintainer="L2G2.com"
+LABEL maintainer="l2g2.com"
 
 #copying the below three files to nginx
 COPY ./default.conf.tpl /etc/nginx/default.conf.tpl
