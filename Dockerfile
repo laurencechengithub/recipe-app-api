@@ -9,6 +9,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
+COPY ./scripts /scripts
 COPY ./app /app
 # copy xxxx from local mechine to xxxx inside the container
 WORKDIR /app
@@ -23,7 +24,8 @@ RUN python -m venv /py && \
     #apk=package manager from alpine, install client
     apk add --update --no-cache --virtual .tmp-build-deps \
     #set a virtual and make alias of our below dependencies 給下面一個統稱：tmp-build-deps
-        build-base postgresql-dev musl-dev zlib zlib-dev && \
+    #linux-headers : fir the use of uWGSI
+        build-base postgresql-dev musl-dev zlib zlib-dev linux-headers && \
     #apk add --no-cache py3-numpy \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
@@ -42,7 +44,8 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
     chown -R django-container-user:django-container-user /vol && \
-    chmod -R 755 /vol
+    chmod -R 755 /vol && \
+    chmod -R +x /scripts
 #run command when building image
 #keep run command light weight avoid too many layer in out system
 
@@ -51,3 +54,5 @@ RUN python -m venv /py && \
 ENV PATH="/py/bin:$PATH"
 
 USER django-container-user
+#below is the name of the scripts that's going to run our application
+CMD ["run.sh"]
