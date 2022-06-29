@@ -28,12 +28,8 @@ from core import views as core_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     #generate the yaml file of this project's api
-    path('api/health-check', core_views.health_check, name='health_check'),
-    path(
-        'api/schema/',
-        SpectacularAPIView.as_view(),
-        name='api-schema'
-        ),
+    path('api/health-check/', core_views.health_check, name='health-check'),
+    path('api/schema/',SpectacularAPIView.as_view(), name='api-schema'),
     #generate the swagger
     path(
         'api/docs/',
