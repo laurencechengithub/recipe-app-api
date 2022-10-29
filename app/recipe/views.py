@@ -1,5 +1,5 @@
-"""
-View for recipe api
+""" """
+# View for recipe api
 """
 
 from rest_framework import viewsets
@@ -10,21 +10,21 @@ from rest_framework.permissions import IsAuthenticated
 from core.models import Recipe
 from recipe import serializers
 
-#Tag
-#mixin is just things that we can add into view
+# Tag
+# mixin is just things that we can add into view
 from rest_framework import mixins
 from core.models import Tag
 
-#Ingredients
+# Ingredients
 from core.models import Ingredient
 
-#image
+# image
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 
-#filter
+# filter
 from drf_spectacular.utils import (
     extend_schema_view,
     extend_schema,
@@ -32,7 +32,9 @@ from drf_spectacular.utils import (
     OpenApiTypes,
 )
 
-#changing the open api parameter
+# changing the open api parameter
+
+
 @extend_schema_view(
     list=extend_schema(
         parameters=[
@@ -49,28 +51,30 @@ from drf_spectacular.utils import (
         ]
     )
 )
-
-
 # ModelViewSet is use the direct interact with a model
 class RecipeViewSet(viewsets.ModelViewSet):
-    """View for manage recipe api"""
-    #the variable names below are not to be modified
+    """
+   # View for manage recipe api
+   """
+    # the variable names below are not to be modified
     serializer_class = serializers.RecipeDetailSerializer
     # the objects that are avaible for this view set
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    #recieving filter arguments as a list of ids, comma seperated
+    # recieving filter arguments as a list of ids, comma seperated
     def _params_to_ints(self, qs):
         'convert a list of string to intergers'
         return [int(str_id) for str_id in qs.split(',')]
 
-
     # override the orignal function to filter the queryset thats related to the user
+
     def get_queryset(self):
-        """Retrieve recipes for authenticated user"""
-        #user that is assigned with the request
+        """
+       # Retrieve recipes for authenticated user
+       """
+        # user that is assigned with the request
         tags = self.request.query_params.get('tags')
         ingredients = self.request.query_params.get('ingredients')
         queryset = self.queryset
@@ -85,13 +89,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
             user=self.request.user
         ).order_by('-id').distinct()
 
-
     def get_serializer_class(self):
         "Return the serializer class for the request"
-        #the minor defference of RecipeSerializer vs RecipeDetailSerializer
-        #is when the action are requesting the list of recipes that are without detail
-        #so we use RecipeSerializer .
-        #where as if with detail than we use RecipeDetailSerializer
+        # the minor defference of RecipeSerializer vs RecipeDetailSerializer
+        # is when the action are requesting the list of recipes that are without detail
+        # so we use RecipeSerializer .
+        # where as if with detail than we use RecipeDetailSerializer
         if self.action == 'list':
             return serializers.RecipeSerializer
         elif self.action == 'upload_image':
@@ -99,15 +102,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return self.serializer_class
 
-    def perform_create(self, serializer): #we override the create method of django
+    def perform_create(self, serializer):  # we override the create method of django
         "create a new recipe"
-        #when we create a new recipe through the create feature of the view,
-        #it's going to call this function
+        # when we create a new recipe through the create feature of the view,
+        # it's going to call this function
         serializer.save(user=self.request.user)
 
     @action(methods=['POST'], detail=True, url_path='upload-image')
     def upload_image(self, request, pk=None):
-        """Upload an image to recipe."""
+        """
+        # Upload an image to recipe.
+        """
         recipe = self.get_object()
         serializer = self.get_serializer(recipe, data=request.data)
 
@@ -116,6 +121,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @extend_schema_view(
     list=extend_schema(
@@ -128,16 +134,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ]
     )
 )
-
-#tag => using viewset; viewset can provide simple CRUD
-#GenericViewSet must be the last inheritance
-#mixins.UpdateModelMixin => we can update the tags
-#mixins.DestroyModelMixin => we can delete the tags
+# tag => using viewset; viewset can provide simple CRUD
+# GenericViewSet must be the last inheritance
+# mixins.UpdateModelMixin => we can update the tags
+# mixins.DestroyModelMixin => we can delete the tags
 class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
                             mixins.UpdateModelMixin,
                             mixins.ListModelMixin,
                             viewsets.GenericViewSet):
-    """Base viewset for recipe attributes."""
+    """
+    # Base viewset for recipe attributes.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -147,7 +154,7 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
             int(self.request.query_params.get('assigned_only', 0))
         )
         queryset = self.queryset
-        #assign_only = true than
+        # assign_only = true than
         if assigned_only:
             queryset = queryset.filter(recipe__isnull=False)
 
@@ -158,10 +165,12 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
 
 class TagViewSet(BaseRecipeAttrViewSet):
     'Manage tags in the database'
-    serializer_class=serializers.TagSerializer
+    serializer_class = serializers.TagSerializer
     queryset = Tag.objects.all()
+
 
 class IngredientViewSet(BaseRecipeAttrViewSet):
     'manage ingredients in the database'
-    serializer_class=serializers.IngredientSerializer
+    serializer_class = serializers.IngredientSerializer
     queryset = Ingredient.objects.all()
+ """

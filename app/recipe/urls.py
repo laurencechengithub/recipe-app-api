@@ -1,6 +1,6 @@
-"""
-URL mappings for the recipe app.
-"""
+""" """ """ """ """ """
+# URL mappings for the recipe app.
+""" """ """ """ """
 
 from django.urls import (
     path,
@@ -31,4 +31,4 @@ app_name = 'recipe'
 # the urlpatterns are here to include the functions generated automatically by the router
 urlpatterns = [
     path('',include(router.urls)),
-]
+]  """

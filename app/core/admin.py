@@ -1,4 +1,4 @@
-from django.contrib import admin # noqa
+from django.contrib import admin  # noqa
 # noqa tells the flake8 to not lookinto that line of code
 # Register your models here.
 
@@ -8,18 +8,19 @@ from django.utils.translation import gettext_lazy as translationStub
 
 from core import models
 
+
 class UserAdmin(BaseUserAdmin):
     """Define the admin page"""
     ordering = ["id"]
-    #ordering comes with the django useradmin
-    list_display = ["email","name","follower","memberType"]
+    # ordering comes with the django useradmin
+    list_display = ["email", "name", "follower", "memberType"]
     fieldsets = (
-        ('ThisIsTheTitle', {'fields': ('email','password')}),
+        ('ThisIsTheTitle', {'fields': ('email', 'password')}),
         #(title, )
         (
             translationStub('Permission'),
             {
-                'fields' : (
+                'fields': (
                     'is_active',
                     'is_staff',
                     'is_superuser',
@@ -37,8 +38,8 @@ class UserAdmin(BaseUserAdmin):
     )
     readonly_fields = ['last_login']
     add_fieldsets = (
-        ("Add_One_User",{
-            'classes':('wide',),
+        ("Add_One_User", {
+            'classes': ('wide',),
             'fields': (
                 'email',
                 'password1',
@@ -53,14 +54,15 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
-admin.site.register(models.User, UserAdmin)
-#if without UserAdmin will basic CRUD operation in models.user
 
-#Recipe======below====
+admin.site.register(models.User, UserAdmin)
+# if without UserAdmin will basic CRUD operation in models.user
+
+""" #Recipe======below====
 admin.site.register(models.Recipe)
 
 #Tag======below====
 admin.site.register(models.Tag)
 #This makes sure that Tag are manageable through django admin interface
 
-admin.site.register(models.Ingredient)
+admin.site.register(models.Ingredient) """
